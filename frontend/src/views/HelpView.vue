@@ -57,6 +57,12 @@ import YesNo from '@/components/ShouldPing.vue';
                 of the tracker along with a button linking to the room page.
             </li>
             <li>
+                <b>Connection name</b>: An optional custom label for the server
+                connection button.  If set, this name is shown instead of the
+                host and port.  Clicking the button still copies the host and
+                port to the clipboard.
+            </li>
+            <li>
                 <b>Inactivity thresholds</b>: The threshold in hours before a
                 slot's "last activity" value is shown in yellow or red.
             </li>
