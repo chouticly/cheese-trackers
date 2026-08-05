@@ -2,11 +2,13 @@
 import { copy as clipboardCopy } from '@/clipboard';
 import { computed } from 'vue';
 
-const props = defineProps(['host', 'port', 'stale']);
+const props = defineProps(['host', 'port', 'stale', 'connectionHost']);
 
 const roomHostAndPort = computed(() => {
-  if (props.host && props.port) {
-    return `${props.host}:${props.port}`;
+  const host = props.connectionHost?.length ? props.connectionHost : props.host;
+
+  if (host && props.port) {
+    return `${host}:${props.port}`;
   }
 });
 </script>

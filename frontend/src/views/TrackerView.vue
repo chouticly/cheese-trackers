@@ -895,6 +895,7 @@ loadTracker();
                 </a> <RoomPortButton
                     :host="roomHost"
                     :port="trackerData?.last_port"
+                    :connectionHost="trackerData?.room_connection_host"
                 />
             </div>
         </div>
@@ -994,6 +995,32 @@ loadTracker();
                                     :value="props.value"
                                     @input="(e) => props.edited(e.target.value)"
                                     placeholder="Room link"
+                                    @blur="props.save()"
+                                    @keyup.enter.prevent="props.save()"
+                                    @keyup.esc="props.cancel()"
+                                >
+                            </CancelableEdit>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-xxl-6 mb-3">
+                    <div class="row">
+                        <label class="col-form-label col-3" for="trackerRoomConnectionHostEdit">Connection host</label>
+                        <div class="col-9">
+                            <CancelableEdit
+                                :modelValue="trackerData?.room_connection_host"
+                                :reset="updateTrackerErrorCount"
+                                @update:modelValue="(room_connection_host) => updateTracker({ room_connection_host })"
+                                v-slot="props"
+                            >
+                                <input
+                                    type="text"
+                                    id="trackerRoomConnectionHostEdit"
+                                    :disabled="loading || !canEditTrackerSettings"
+                                    class="form-control"
+                                    :value="props.value"
+                                    @input="(e) => props.edited(e.target.value)"
+                                    placeholder="Custom server hostname"
                                     @blur="props.save()"
                                     @keyup.enter.prevent="props.save()"
                                     @keyup.esc="props.cancel()"

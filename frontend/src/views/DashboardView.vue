@@ -164,6 +164,7 @@ watch(
                             :host="trackerHost(tracker)"
                             :port="tracker.last_port"
                             :stale="tracker.last_port_is_stale"
+                            :connectionHost="tracker.room_connection_host"
                         />
                     </td>
                     <td>{{

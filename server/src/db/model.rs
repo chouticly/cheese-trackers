@@ -250,6 +250,7 @@ pub struct ApTracker {
     pub upstream_url: String,
     pub global_ping_policy: Option<PingPreference>,
     pub room_link: String,
+    pub room_connection_host: String,
     #[diff(skip)]
     pub last_port: Option<i32>,
     #[diff(skip)]
@@ -273,6 +274,7 @@ pub struct ApTrackerDashboard {
     pub last_activity: Option<DateTime<Utc>>,
     pub dashboard_override_visibility: Option<bool>,
     pub room_link: String,
+    pub room_connection_host: String,
     pub last_port: Option<i32>,
     pub next_port_check_at: Option<DateTime<Utc>>,
     pub upstream_url: String,

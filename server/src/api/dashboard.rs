@@ -39,6 +39,7 @@ where
         #[serde(skip_serializing_if = "Option::is_none")]
         pub dashboard_override_visibility: Option<bool>,
         pub room_link: String,
+        pub room_connection_host: String,
         #[serde(skip_serializing_if = "Option::is_none")]
         pub room_host: Option<String>,
         #[serde(skip_serializing_if = "Option::is_none")]
@@ -61,6 +62,7 @@ where
                 last_activity: tracker.last_activity,
                 dashboard_override_visibility: tracker.dashboard_override_visibility,
                 room_link: tracker.room_link,
+                room_connection_host: tracker.room_connection_host,
                 room_host: state
                     .get_upstream_host_for_tracker_link(&tracker.upstream_url.parse()?)
                     .await

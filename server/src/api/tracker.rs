@@ -59,6 +59,7 @@ where
         #[serde(skip_serializing_if = "Option::is_none")]
         pub global_ping_policy: Option<PingPreference>,
         pub room_link: String,
+        pub room_connection_host: String,
         #[serde(skip_serializing_if = "Option::is_none")]
         pub room_host: Option<String>,
         #[serde(skip_serializing_if = "Option::is_none")]
@@ -85,6 +86,7 @@ where
                 upstream_url: tracker.upstream_url,
                 global_ping_policy: tracker.global_ping_policy,
                 room_link: tracker.room_link,
+                room_connection_host: tracker.room_connection_host,
                 last_port: tracker.last_port,
                 inactivity_threshold_yellow_hours: tracker.inactivity_threshold_yellow_hours,
                 inactivity_threshold_red_hours: tracker.inactivity_threshold_red_hours,
@@ -262,6 +264,15 @@ where
     }))
 }
 
+/// Strips a port suffix if the organizer accidentally includes one.
+fn sanitize_room_connection_host(host: &str) -> String {
+    host.trim()
+        .split(':')
+        .next()
+        .unwrap_or("")
+        .to_owned()
+}
+
 /// Request body for [`update_tracker`].
 #[derive(Debug, serde::Deserialize)]
 pub struct UpdateTrackerRequest {
@@ -273,6 +284,8 @@ pub struct UpdateTrackerRequest {
     pub lock_settings: bool,
     pub global_ping_policy: Option<PingPreference>,
     pub room_link: String,
+    #[serde(default)]
+    pub room_connection_host: String,
     pub inactivity_threshold_yellow_hours: i32,
     pub inactivity_threshold_red_hours: i32,
     pub require_authentication_to_claim: bool,
@@ -385,6 +398,9 @@ where
     tracker.inactivity_threshold_yellow_hours = tracker_update.inactivity_threshold_yellow_hours;
     tracker.inactivity_threshold_red_hours = tracker_update.inactivity_threshold_red_hours;
 
+    tracker.room_connection_host =
+        sanitize_room_connection_host(&tracker_update.room_connection_host);
+
     if tracker.room_link != tracker_update.room_link {
         tracker.room_link = tracker_update.room_link;
 
@@ -427,6 +443,7 @@ where
                 ApTrackerIden::LockSettings,
                 ApTrackerIden::GlobalPingPolicy,
                 ApTrackerIden::RoomLink,
+                ApTrackerIden::RoomConnectionHost,
                 ApTrackerIden::LastPort,
                 ApTrackerIden::NextPortCheckAt,
                 ApTrackerIden::InactivityThresholdYellowHours,
