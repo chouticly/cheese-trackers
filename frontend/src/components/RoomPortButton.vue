@@ -2,20 +2,14 @@
 import { copy as clipboardCopy } from '@/clipboard';
 import { computed } from 'vue';
 
-const props = defineProps(['host', 'port', 'stale', 'connectionName']);
+const props = defineProps(['host', 'port', 'stale', 'connectionHost']);
 
 const roomHostAndPort = computed(() => {
-  if (props.host && props.port) {
-    return `${props.host}:${props.port}`;
-  }
-});
+  const host = props.connectionHost?.length ? props.connectionHost : props.host;
 
-const displayText = computed(() => {
-  if (props.connectionName?.length) {
-    return props.connectionName;
+  if (host && props.port) {
+    return `${host}:${props.port}`;
   }
-
-  return roomHostAndPort.value;
 });
 </script>
 
@@ -28,12 +22,11 @@ const displayText = computed(() => {
         'text-bg-info': !props.stale,
         'text-bg-warning': props.stale,
       }"
-      :title="props.connectionName?.length ? roomHostAndPort : undefined"
       @click="clipboardCopy(roomHostAndPort)"
   >
       <i class="bi-ethernet"></i> <span class="font-monospace" style="line-height: 0"
       >
-          {{ displayText }}
+          {{ roomHostAndPort }}
       </span>
   </button>
 </template>

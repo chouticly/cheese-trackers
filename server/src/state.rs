@@ -366,7 +366,7 @@ impl<D> AppState<D> {
                         lock_settings: false,
                         global_ping_policy: None,
                         room_link: "".to_owned(),
-                        room_connection_name: "".to_owned(),
+                        room_connection_host: "".to_owned(),
                         last_port: None,
                         next_port_check_at: None,
                         inactivity_threshold_yellow_hours: 24,
