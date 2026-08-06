@@ -17,18 +17,18 @@ const error = ref(undefined);
 
 const scalecolor = {
   grid: {
-    color: '#444',
+    color: 'rgba(106, 184, 114, 0.15)',
   },
   ticks: {
-    color: '#888',
+    color: '#a8b8a8',
   },
 };
 
 const chartOptions = computed(() => ({
   responsive: true,
   maintainAspectRatio: false,
-  color: '#dee2e6',
-  borderColor: '#dee2e6',
+  color: '#e8f0e8',
+  borderColor: '#e8f0e8',
   scales: {
     x: {
       type: 'time',
@@ -76,8 +76,8 @@ async function loadData() {
     data.value = {
       datasets: [{
         label: 'Checks',
-        borderColor: '#198754',
-        backgroundColor: '#198754',
+        borderColor: '#6ab872',
+        backgroundColor: '#6ab872',
         data: map(r.data, (i) => ({
           x: moment(i.time),
           y: sum(values(i.slots)),

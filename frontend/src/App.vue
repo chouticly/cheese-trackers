@@ -55,9 +55,17 @@ function dismissBanner(id) {
 </script>
 
 <template>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary mb-3">
+    <nav class="navbar navbar-expand-lg sn-navbar mb-3">
         <div class="container-fluid">
-            <span class="navbar-brand">Cheese Trackers</span>
+            <span class="navbar-brand sn-brand">
+                <span class="sn-brand-emoji" aria-hidden="true">🥚</span>
+                <span>
+                    <span class="sn-wordmark">
+                        <span class="sn-wordmark-sylva">Sylva</span><span class="sn-wordmark-nova">Nova</span>
+                    </span>
+                    <span class="sn-brand-sub">Trackers</span>
+                </span>
+            </span>
             <button
                 class="navbar-toggler"
                 type="button"
@@ -109,8 +117,8 @@ function dismissBanner(id) {
 
     <RouterView />
 
-    <footer class="mt-3 p-2 text-center bg-body-tertiary text-muted">
-        <p>Built by The Incredible Wheel of Cheese for the Archipelago community. &#x1F9C0;</p>
+    <footer class="mt-3 p-3 text-center sn-footer">
+        <p>Built by The Incredible Wheel of Cheese for the Archipelago community.</p>
         <p>Inspired by RadzPrower's tracking spreadsheet.</p>
         <p class="m-0">
             &copy;2025 The Incredible Wheel of Cheese | <a

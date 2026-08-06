@@ -901,10 +901,10 @@ loadTracker();
         </div>
         <TrackerDescription
             v-if="!showTools && (trackerData?.description || '').length && trackerOwner"
-            class="container bg-dark-subtle pt-3 pb-3 mb-4 rounded"
+            class="container bg-dark-subtle sn-panel pt-3 pb-3 mb-4 rounded"
             :source="trackerData.description"
         />
-        <form class="container bg-dark-subtle pt-3 mb-4 rounded" v-if="showTools">
+        <form class="container bg-dark-subtle sn-panel pt-3 mb-4 rounded" v-if="showTools">
             <div class="row">
                 <div class="col-12 col-xxl-6 mb-3">
                     <div class="row">
