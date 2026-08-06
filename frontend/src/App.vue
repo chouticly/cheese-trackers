@@ -63,7 +63,7 @@ function dismissBanner(id) {
                     <span class="sn-wordmark">
                         <span class="sn-wordmark-sylva">Sylva</span><span class="sn-wordmark-nova">Nova</span>
                     </span>
-                    <span class="sn-brand-sub">Trackers</span>
+                    <span class="sn-brand-sub">Archipelago</span>
                 </span>
             </span>
             <button
