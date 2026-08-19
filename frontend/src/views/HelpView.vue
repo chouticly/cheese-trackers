@@ -523,6 +523,7 @@ import YesNo from '@/components/ShouldPing.vue';
             scenarios and whether it is appropriate to ping someone based on the
             ping preference set on their slot.
         </p>
+        <div class="table-responsive">
         <table class="table text-center">
             <thead>
                 <tr>
@@ -577,14 +578,15 @@ import YesNo from '@/components/ShouldPing.vue';
                 </tr>
             </tbody>
         </table>
+        </div>
         <div class="row text-center">
-            <div class="col-4">
+            <div class="col-12 col-md-4 mb-2 mb-md-0">
                 <yes-no value="yes"></yes-no> You can ping
             </div>
-            <div class="col-4">
+            <div class="col-12 col-md-4 mb-2 mb-md-0">
                 <yes-no value="notes"></yes-no> Check the slot's notes to see if you can ping
             </div>
-            <div class="col-4">
+            <div class="col-12 col-md-4">
                 <yes-no value="no"></yes-no> Do not ping
             </div>
         </div>

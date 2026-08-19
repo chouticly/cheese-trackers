@@ -34,6 +34,7 @@ import TrackerTableSlot from '@/components/TrackerTableSlot.vue';
 import TrackerContainer from '@/components/TrackerContainer.vue';
 import TrackerContainerHeader from '@/components/TrackerContainerHeader.vue';
 import TrackerContainerSlot from '@/components/TrackerContainerSlot.vue';
+import TrackerMobileFilters from '@/components/TrackerMobileFilters.vue';
 
 const layouts = {
     table: {
@@ -844,27 +845,32 @@ loadTracker();
             <router-link to="/settings">settings</router-link>.
         </div>
         <div :class="(showTools || (trackerData?.description || '').length) ? 'mb-3' : 'mb-4'">
-            <h2 class="text-center">
+            <h2 class="text-center mb-2">
                 <span :class="{ 'text-muted': !trackerData.title, 'fst-italic': !trackerData.title }">{{
                     trackerData.title.length ?
                     trackerData.title : 'Untitled tracker' }}
                 </span>
                 <template v-if="trackerOwner">
                     by <UsernameDisplay :user="trackerOwner"></UsernameDisplay>
-                </template> <button
+                </template>
+            </h2>
+            <div class="d-flex flex-wrap justify-content-center gap-2 tracker-toolbar mb-2">
+                <button
                     class="btn btn-sm btn-outline-light"
                     :class="{ active: showTools }"
                     @click="showTools = !showTools"
                 >
                     <i :class="showTools ? 'bi-gear-fill' : 'bi-gear'"/>
-                </button> <DropdownSelector
+                </button>
+                <DropdownSelector
                     v-if="currentUser?.id !== undefined"
                     :options="dashboardOverrideVisibilities"
                     :value="dashboardOverrideVisibilities.byId[trackerData.dashboard_override_visibility]"
                     :disabled="loading"
                     :icons="true"
                     @selected="(s) => setDashboardOverrideStatus(s.id)"
-                /> <div class="input-group input-group-sm d-inline-flex align-bottom w-auto">
+                />
+                <div class="input-group input-group-sm w-auto">
                     <button
                         class="btn btn-outline-light"
                         :class="{ active: freeFilterActive }"
@@ -880,7 +886,7 @@ loadTracker();
                         v-model="freeFilterText"
                     >
                 </div>
-            </h2>
+            </div>
             <div
                 v-if="trackerData?.room_link?.length"
                 class="text-center"
@@ -1177,6 +1183,38 @@ loadTracker();
             </div>
         </form>
         <button class="btn btn-primary refresh-button" @click="loadTracker()" :disabled="loading">Refresh</button>
+        <TrackerMobileFilters
+            :active-sort="activeSort"
+            :sort-by-name="sortByName"
+            :sort-by-owner="sortByOwner"
+            :sort-by-game="sortByGame"
+            :sort-by-activity="sortByActivity"
+            :sort-by-checks="sortByChecks"
+            :sort-by-hints="sortByHints"
+            :set-sort="setSort"
+            :availability-filter="availabilityFilter"
+            :availability-status="availabilityStatus"
+            :player-filter="playerFilter"
+            :player-filter-all="PLAYER_FILTER_ALL"
+            :player-filter-unowned="PLAYER_FILTER_UNOWNED"
+            :current-user="currentUser"
+            :players-except-self="playersExceptSelf"
+            :users-equal="usersEqual"
+            :game-filter="gameFilter"
+            :unique-games="uniqueGames"
+            :progression-filter="progressionFilter"
+            :completion-filter="completionFilter"
+            :progression-status="progressionStatus"
+            :completion-status="completionStatus"
+            :show-last-activity="showLastActivity"
+            :show-checks-as-percent="showChecksAsPercent"
+            :all-expanded="allExpanded"
+            :set-all-expanded="setAllExpanded"
+            @update:player-filter="playerFilter = $event"
+            @update:game-filter="gameFilter = $event"
+            @update:show-last-activity="showLastActivity = $event"
+            @update:show-checks-as-percent="showChecksAsPercent = $event"
+        />
         <component :is="layout.primary" :items="sortedAndFilteredGames">
             <template #head>
                 <component :is="layout.header" :show-last-activity="showLastActivity">
@@ -1501,7 +1539,7 @@ loadTracker();
                                 </div>
                             </div>
                             <div class="col-12 col-xl-6">
-                                <div>
+                                <div class="d-flex flex-wrap gap-2 mb-2">
                                     <div class="btn-group">
                                         <button class="btn btn-sm btn-outline-light" :class="{ active: !sentHints }"
                                             @click="sentHints = false">
@@ -1512,11 +1550,11 @@ loadTracker();
                                             Sent hints
                                         </button>
                                     </div>
-                                    <button class="btn btn-sm ms-2 btn-outline-light"
+                                    <button class="btn btn-sm btn-outline-light"
                                         :class="{ active: showFoundHints }" @click="showFoundHints = !showFoundHints">
                                         Include found and useless hints
                                     </button>
-                                    <button class=" btn btn-sm btn-outline-light ms-2"
+                                    <button class="btn btn-sm btn-outline-light"
                                         :disabled="displayHintsByGame(game.id).length === 0"
                                         @click="copyHints(displayHintsByGame(game.id))"><i class="bi-copy"></i> Copy
                                         all</button>
