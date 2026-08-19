@@ -112,6 +112,7 @@ watch(
     </div>
     <div v-if="settings.auth?.token" class="container mt-3">
         <h2>My Trackers</h2>
+        <div class="table-responsive">
         <table v-if="myTrackersLoading" class="table placeholder-wave">
             <thead>
                 <tr>
@@ -175,6 +176,7 @@ watch(
                 </tr>
             </tbody>
         </table>
+        </div>
         <div v-if="myTrackersError" class="text-danger">
             Failed to load trackers ({{ myTrackersError.message }})
         </div>

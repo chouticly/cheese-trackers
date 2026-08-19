@@ -7,8 +7,8 @@ const props = defineProps(['items']);
 </script>
 
 <template>
-    <table class="table table-sm table-hover text-center">
-        <thead style="position: sticky; top: 0; z-index: 100">
+    <table class="table table-sm table-hover text-center tracker-table">
+        <thead class="tracker-table-head" style="position: sticky; top: 0; z-index: 100">
             <slot name="head"/>
         </thead>
         <tbody>

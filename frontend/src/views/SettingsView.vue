@@ -105,7 +105,7 @@ maybeLoadUserSettings(settings.currentUser.value);
                 </div>
                 <div class="col-12" :class="{ 'col-lg-6': !editSettings.auth?.token }">
                     <label class="form-label">Default ping preference</label>
-                    <div class="btn-group form-control border-0 p-0">
+                    <div class="btn-group flex-wrap form-control border-0 p-0">
                         <template v-for="pref of pingPreference">
                             <input type="radio" class="btn-check" name="pingPref" :id="`ping-pref-${pref.id}`"
                                 v-model="editSettings.defaultPingPreference" :value="pref.id">
@@ -116,7 +116,7 @@ maybeLoadUserSettings(settings.currentUser.value);
                 </div>
                 <div class="col-12 col-lg-6">
                     <label class="form-label">Status selectors</label>
-                    <div class="btn-group form-control border-0 p-0">
+                    <div class="btn-group flex-wrap form-control border-0 p-0">
                         <template v-for="v in [false, true]">
                             <input type="radio" class="btn-check" name="statusIcons" :id="`status-icons-${v}`"
                                 v-model="editSettings.statusIcons" :value="v">
@@ -128,7 +128,7 @@ maybeLoadUserSettings(settings.currentUser.value);
                 </div>
                 <div class="col-12 col-lg-6">
                     <label class="form-label">Sort mode</label>
-                    <div class="btn-group form-control border-0 p-0">
+                    <div class="btn-group flex-wrap form-control border-0 p-0">
                         <template v-for="mode in sortModes">
                             <input type="radio" class="btn-check" name="sortMode" :id="`sort-mode-${mode.id}`"
                                 v-model="editSettings.sortMode" :value="mode.id">
@@ -140,7 +140,7 @@ maybeLoadUserSettings(settings.currentUser.value);
                 </div>
                 <div class="col-12 col-lg-6">
                     <label class="form-label">Protect slots I haven't claimed</label>
-                    <div class="btn-group form-control border-0 p-0">
+                    <div class="btn-group flex-wrap form-control border-0 p-0">
                         <template v-for="v in [false, true]">
                             <input type="radio" class="btn-check" name="protectOtherSlots" :id="`protect-other-slots-${v}`"
                                 v-model="editSettings.protectOtherSlots" :value="v">

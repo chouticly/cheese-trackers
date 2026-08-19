@@ -89,14 +89,15 @@ function dismissBanner(id) {
                         <RouterLink class="nav-link" active-class="active" to="/help">Help</RouterLink>
                     </li>
                 </ul>
-                <hr>
-                <template v-if="localSettings.auth?.discordUsername">
-                    <span class="navbar-text">
-                        Welcome, {{ localSettings.auth.discordUsername }}!
-                    </span>
-                    <button class="btn btn-sm btn-secondary ms-2" @click="logout">Log out</button>
-                </template>
-                <button v-else class="btn btn-sm btn-primary" @click="login">Sign in with Discord</button>
+                <div class="d-flex flex-column flex-lg-row align-items-lg-center gap-2 ms-lg-auto mt-2 mt-lg-0">
+                    <template v-if="localSettings.auth?.discordUsername">
+                        <span class="navbar-text">
+                            Welcome, {{ localSettings.auth.discordUsername }}!
+                        </span>
+                        <button class="btn btn-sm btn-secondary" @click="logout">Log out</button>
+                    </template>
+                    <button v-else class="btn btn-sm btn-primary" @click="login">Sign in with Discord</button>
+                </div>
             </div>
         </div>
     </nav>

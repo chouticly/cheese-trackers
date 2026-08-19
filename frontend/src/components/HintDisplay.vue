@@ -128,4 +128,10 @@ const canPing = computed(() => {
 .mw-hint:hover .mw-copy-hint {
     visibility: visible;
 }
+
+@media (hover: none) {
+    .mw-copy-hint {
+        visibility: visible;
+    }
+}
 </style>

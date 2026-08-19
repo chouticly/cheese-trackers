@@ -64,6 +64,7 @@ const sumKeys = computed(() => {
 </script>
 
 <template>
+    <div class="table-responsive">
     <table class="table table-border">
         <thead>
             <tr>
@@ -99,6 +100,7 @@ const sumKeys = computed(() => {
             </tr>
         </tbody>
     </table>
+    </div>
 </template>
 
 <style scoped>
