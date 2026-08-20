@@ -35,6 +35,7 @@ import TrackerContainer from '@/components/TrackerContainer.vue';
 import TrackerContainerHeader from '@/components/TrackerContainerHeader.vue';
 import TrackerContainerSlot from '@/components/TrackerContainerSlot.vue';
 import TrackerMobileFilters from '@/components/TrackerMobileFilters.vue';
+import TeleportedDropdown from '@/components/TeleportedDropdown.vue';
 
 const layouts = {
     table: {
@@ -1228,147 +1229,143 @@ loadTracker();
                     <template #ping>Ping</template>
                     <template #availability>
                         Availability
-                        <button class="btn btn-sm btn-outline-light" data-bs-toggle="dropdown" data-bs-auto-close="outside">
-                            <i :class="[availabilityFilter.isActive.value ? 'bi-funnel-fill' : 'bi-funnel']"></i>
-                        </button>
-                        <ul class="dropdown-menu">
+                        <TeleportedDropdown auto-close="outside">
+                            <template #toggle>
+                                <i :class="[availabilityFilter.isActive.value ? 'bi-funnel-fill' : 'bi-funnel']"></i>
+                            </template>
                             <li v-for="status in availabilityStatus">
                                 <button class="dropdown-item" :class="availabilityFilter.classes(status)"
                                     @click="availabilityFilter.toggle(status)">
                                     <i :class="`bi-${status.icon}`"></i> {{ status.label }}
                                 </button>
                             </li>
-                        </ul>
+                        </TeleportedDropdown>
                     </template>
                     <template #owner>
-                        <div class="dropdown">
-                            <span @click="setSort(sortByOwner, false)" class="sorter">
-                                Owner (Discord Username)
-                                <i v-if="activeSort[0] === sortByOwner" class="me-1"
-                                    :class="{ 'bi-sort-alpha-down': !activeSort[1], 'bi-sort-alpha-up': activeSort[1] }"></i>
-                            </span>
-                            <button class="btn btn-sm btn-outline-light" data-bs-toggle="dropdown">
+                        <span @click="setSort(sortByOwner, false)" class="sorter">
+                            Owner (Discord Username)
+                            <i v-if="activeSort[0] === sortByOwner" class="me-1"
+                                :class="{ 'bi-sort-alpha-down': !activeSort[1], 'bi-sort-alpha-up': activeSort[1] }"></i>
+                        </span>
+                        <TeleportedDropdown>
+                            <template #toggle>
                                 <i
                                     :class="{ 'bi-funnel': playerFilter === PLAYER_FILTER_ALL, 'bi-funnel-fill': playerFilter !== PLAYER_FILTER_ALL }"></i>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <button class="dropdown-item" :class="{ active: playerFilter === PLAYER_FILTER_ALL }"
-                                        @click="playerFilter = PLAYER_FILTER_ALL">
-                                        All
-                                    </button>
-                                </li>
-                                <li>
-                                    <button class="dropdown-item"
-                                        :class="{ active: playerFilter === PLAYER_FILTER_UNOWNED }"
-                                        @click="playerFilter = PLAYER_FILTER_UNOWNED">
-                                        Unclaimed
-                                    </button>
-                                </li>
-                                <template v-if="currentUser">
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
-                                    <li>
-                                        <button class="dropdown-item"
-                                            :class="{ active: usersEqual(playerFilter, currentUser) }"
-                                            @click="playerFilter = currentUser">
-                                            <UsernameDisplay :user="currentUser"></UsernameDisplay>
-                                        </button>
-                                    </li>
-                                </template>
-                                <template v-if="playersExceptSelf.length">
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
-                                    <li>
-                                        <button v-for="player in playersExceptSelf" class="dropdown-item"
-                                            :class="{ active: playerFilter === player }" @click="playerFilter = player">
-                                            <UsernameDisplay :user="player"></UsernameDisplay>
-                                        </button>
-                                    </li>
-                                </template>
-                            </ul>
-                        </div>
-                    </template>
-                    <template #game>
-                        <div class="dropdown">
-                            <span @click="setSort(sortByGame, false)" class="sorter">
-                                Game
-                                <i v-if="activeSort[0] === sortByGame" class="me-1"
-                                    :class="{ 'bi-sort-alpha-down': !activeSort[1], 'bi-sort-alpha-up': activeSort[1] }"></i>
-                            </span>
-                            <button class="btn btn-sm btn-outline-light" data-bs-toggle="dropdown">
-                                <i :class="{ 'bi-funnel': !gameFilter, 'bi-funnel-fill': !!gameFilter }"></i>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <button class="dropdown-item" :class="{ active: !gameFilter }"
-                                        @click="gameFilter = undefined">All</button>
-                                </li>
+                            </template>
+                            <li>
+                                <button class="dropdown-item" :class="{ active: playerFilter === PLAYER_FILTER_ALL }"
+                                    @click="playerFilter = PLAYER_FILTER_ALL">
+                                    All
+                                </button>
+                            </li>
+                            <li>
+                                <button class="dropdown-item"
+                                    :class="{ active: playerFilter === PLAYER_FILTER_UNOWNED }"
+                                    @click="playerFilter = PLAYER_FILTER_UNOWNED">
+                                    Unclaimed
+                                </button>
+                            </li>
+                            <template v-if="currentUser">
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li v-for="g in uniqueGames">
-                                    <button class="dropdown-item" :class="{ active: gameFilter === g }"
-                                        @click="gameFilter = g">
-                                        <GameDisplay :game="g"></GameDisplay>
+                                <li>
+                                    <button class="dropdown-item"
+                                        :class="{ active: usersEqual(playerFilter, currentUser) }"
+                                        @click="playerFilter = currentUser">
+                                        <UsernameDisplay :user="currentUser"></UsernameDisplay>
                                     </button>
                                 </li>
-                            </ul>
-                        </div>
+                            </template>
+                            <template v-if="playersExceptSelf.length">
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li>
+                                    <button v-for="player in playersExceptSelf" class="dropdown-item"
+                                        :class="{ active: playerFilter === player }" @click="playerFilter = player">
+                                        <UsernameDisplay :user="player"></UsernameDisplay>
+                                    </button>
+                                </li>
+                            </template>
+                        </TeleportedDropdown>
+                    </template>
+                    <template #game>
+                        <span @click="setSort(sortByGame, false)" class="sorter">
+                            Game
+                            <i v-if="activeSort[0] === sortByGame" class="me-1"
+                                :class="{ 'bi-sort-alpha-down': !activeSort[1], 'bi-sort-alpha-up': activeSort[1] }"></i>
+                        </span>
+                        <TeleportedDropdown>
+                            <template #toggle>
+                                <i :class="{ 'bi-funnel': !gameFilter, 'bi-funnel-fill': !!gameFilter }"></i>
+                            </template>
+                            <li>
+                                <button class="dropdown-item" :class="{ active: !gameFilter }"
+                                    @click="gameFilter = undefined">All</button>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li v-for="g in uniqueGames">
+                                <button class="dropdown-item" :class="{ active: gameFilter === g }"
+                                    @click="gameFilter = g">
+                                    <GameDisplay :game="g"></GameDisplay>
+                                </button>
+                            </li>
+                        </TeleportedDropdown>
                     </template>
                     <template #status>
-                        <div class="dropdown">
-                            Status
-                            <button class="btn btn-sm btn-outline-light" data-bs-toggle="dropdown"
-                                data-bs-auto-close="outside">
+                        Status
+                        <TeleportedDropdown auto-close="outside">
+                            <template #toggle>
                                 <i :class="[
                                     (progressionFilter.isActive.value || completionFilter.isActive.value) ?
                                         'bi-funnel-fill'
                                         : 'bi-funnel'
                                 ]"></i>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li v-for="status in progressionStatus">
-                                    <button class="dropdown-item" :class="progressionFilter.classes(status)"
-                                        @click="progressionFilter.toggle(status)">
-                                        <i :class="`bi-${status.icon}`"></i> {{ status.label }}
-                                    </button>
-                                </li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li v-for="status in completionStatus">
-                                    <button class="dropdown-item" :class="completionFilter.classes(status)"
-                                        @click="completionFilter.toggle(status)">
-                                        <i :class="`bi-${status.icon}`"></i> {{ status.label }}
-                                    </button>
-                                </li>
-                            </ul>
-                        </div>
+                            </template>
+                            <li v-for="status in progressionStatus">
+                                <button class="dropdown-item" :class="progressionFilter.classes(status)"
+                                    @click="progressionFilter.toggle(status)">
+                                    <i :class="`bi-${status.icon}`"></i> {{ status.label }}
+                                </button>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li v-for="status in completionStatus">
+                                <button class="dropdown-item" :class="completionFilter.classes(status)"
+                                    @click="completionFilter.toggle(status)">
+                                    <i :class="`bi-${status.icon}`"></i> {{ status.label }}
+                                </button>
+                            </li>
+                        </TeleportedDropdown>
                     </template>
                     <template #lastactivity>
-                        <div class="dropdown">
-                            <span class="sorter" @click="setSort(sortByActivity, true)">
-                                Last Activity
-                                <i v-if="activeSort[0] === sortByActivity" class="me-1"
-                                    :class="{ 'bi-sort-numeric-down': !activeSort[1], 'bi-sort-numeric-up': activeSort[1] }"></i>
-                            </span>
-                            <button class="btn btn-sm btn-outline-light" data-bs-toggle="dropdown" data-bs-auto-close="outside">
+                        <span class="sorter" @click="setSort(sortByActivity, true)">
+                            Last Activity
+                            <i v-if="activeSort[0] === sortByActivity" class="me-1"
+                                :class="{ 'bi-sort-numeric-down': !activeSort[1], 'bi-sort-numeric-up': activeSort[1] }"></i>
+                        </span>
+                        <TeleportedDropdown
+                            auto-close="outside"
+                            menu-tag="form"
+                            menu-class="dropdown-menu dropdown-menu-end p-4"
+                            placement="bottom-end"
+                        >
+                            <template #toggle>
                                 <i class="bi-gear"></i>
-                            </button>
-                            <form class="dropdown-menu dropdown-menu-end p-4">
-                                <div>
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" id="showLastActivityCheck" v-model="showLastActivity">
-                                        <label class="form-check-label" for="showLastActivityCheck">
-                                            Show last activity if before last checked
-                                        </label>
-                                    </div>
+                            </template>
+                            <div>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="showLastActivityCheck" v-model="showLastActivity">
+                                    <label class="form-check-label" for="showLastActivityCheck">
+                                        Show last activity if before last checked
+                                    </label>
                                 </div>
-                            </form>
-                        </div>
+                            </div>
+                        </TeleportedDropdown>
                     </template>
                     <template #checks>
                         <span class="sorter" @click="setSort(sortByChecks, false)">
